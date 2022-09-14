@@ -1,6 +1,8 @@
 import math
 import time
 import mysql.connector
+from check_balance import check_balance
+from deposit import deposit
    
 mydb = mysql.connector.connect(user="Jon",passwd="ilikecheeseballs2",host="localhost",database ='BANK', auth_plugin= 'mysql_native_password' ) 
 cursor = mydb.cursor() 
@@ -21,43 +23,22 @@ class Current_Account():
         return deposit_amt
     
     def operation(balance, acc_no, currency):
-        print('What do you want to do\n\t1. View Balance\n\t2. Withdraw Funds \n\t3. Deposit Funds \n\t4. Convert Currency \n\t5. Transfer Funds \n\t6. Change Pin \n\t7. Close Account')
-        choice = int(input('What do you want to do? '))
-        if choice == 1:
-            Current_Account.check_balance(balance, acc_no, currency)
-        elif choice == 2:
-            Current_Account.withdraw(balance, acc_no)
-        elif choice == 3:
-            Current_Account.deposit(balance, acc_no)
-        elif choice == 4:
-            Current_Account.currency_converter(balance, acc_no, currency)
-
-    def check_balance(balance, acc_no, currency):
         time.sleep(1.0)
-        print('To view balance, 1% would be deducted as service fee')
-        time.sleep(0.5)
-        print('\tPress 1 to Proceed \n\tPress 0 to exit\n\tPress 9 to go to the previous Menu')
-        time.sleep(0.4)
-        confirm = int(input('Enter Here: '))
-        new_balance = balance - (balance * 0.001)
-        if confirm == 1:
-            time.sleep(0.3)
-            if currency == 'USD':
-                currency = '$'
-            else:
-                currency = 'N'
-            print('Your account balance is %s%s'%(currency, balance))
-            change_balance_sql = "update customers set balance = %s where account_number = %s"%(new_balance, acc_no)
-            cursor.execute(change_balance_sql)
-            mydb.commit()
-            time.sleep(1.7)
-            print('Charges deducted')
-            time.sleep(1.7)
-            print('Your new account balance is %s%s'%(currency, new_balance))
-        elif confirm == 0:
-            exit('Logging Out')
-        elif confirm == 9:
-            Current_Account.operation(balance, acc_no, currency)
+        print('What do you want to do\n\t1. View Balance\n\t2. Withdraw Funds \n\t3. Deposit Funds \n\t4. Convert Currency \n\t5. Transfer Funds \n\t6. Change Pin \n\t7. Close Account \nPress Enter to exit')
+        choice = (input('What do you want to do? '))
+        if choice == '1':
+            print(check_balance(balance, acc_no, currency))
+            return finish()
+            
+        elif choice == '2':
+            Current_Account.withdraw(balance, acc_no)
+        elif choice == '3':
+            print(deposit(balance, acc_no))
+            return Current_Account.operation(balance, acc_no, currency)
+        elif choice == '4':
+            Current_Account.currency_converter(balance, acc_no, currency)
+        elif choice == '':
+            exit('Closing...')
         
     def withdraw(balance, acc_no):
         withdraw_amount = float(input('Enter the amount you want to withdraw '))
@@ -70,7 +51,7 @@ class Current_Account():
                 time.sleep(1.0)
                 print('Balance too low')
                 time.sleep(0.5)
-                print('You cannot withraw everything in your account')
+                print('You cannot withdraw everything in your account')
             else:
                 balance = (balance - withdraw_amount) - (balance * 0.001)
                 withdraw_sql = "update customers set balance = %s where account_number = %s"%(balance, acc_no)
@@ -82,18 +63,7 @@ class Current_Account():
             Current_Account.withdraw(balance, acc_no)
         return 'Done'
 
-    def deposit(balance, acc_no):
-        time.sleep(0.5)
-        deposit_amt = float(input('Enter a deposit amount: '))
-        time.sleep(0.5)
-        print('Crediting your account...')
-        balance = deposit_amt + balance
-        increase_balance_sql = "update customers set balance = %s where account_number = %s"%(balance, acc_no)
-        cursor.execute(increase_balance_sql)
-        mydb.commit()
-        time.sleep(1.0)
-        print('Successfully deposited N%s into the account'%deposit_amt)
-        return 'Done'
+
         
     def currency_converter(balance, acc_no, currency):
         if currency == 'NGN':
@@ -148,4 +118,10 @@ class Current_Account():
 # Current_Account.currency_converter(balance, acc_no, currency)
 # Make the various operations functions
 
-# Do you want to perform another transaction?
+# Do you want to perform another transaction? make it a function called finish....yes or no
+def finish():
+    another = input('Do you want to perform another transaction?\n\t\tY / N').upper()
+    if another == 'Y':
+        return Current_Account.operation(balance, acc_no, currency)
+    else:
+        exit('Closing')
