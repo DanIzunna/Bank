@@ -13,5 +13,4 @@ def deposit(balance, acc_no):
     cursor.execute(increase_balance_sql)
     mydb.commit()
     time.sleep(1.0)
-    print('Successfully deposited N%s into the account'%deposit_amt)
-    return 'Done'
+    return('Successfully deposited N%s into the account'%deposit_amt)

@@ -28,13 +28,13 @@ class Current_Account():
         choice = (input('What do you want to do? '))
         if choice == '1':
             print(check_balance(balance, acc_no, currency))
-            return finish()
+            return finish(balance, acc_no, currency)
             
         elif choice == '2':
             Current_Account.withdraw(balance, acc_no)
         elif choice == '3':
             print(deposit(balance, acc_no))
-            return Current_Account.operation(balance, acc_no, currency)
+            return finish(balance, acc_no, currency)
         elif choice == '4':
             Current_Account.currency_converter(balance, acc_no, currency)
         elif choice == '':
@@ -62,8 +62,6 @@ class Current_Account():
         else:
             Current_Account.withdraw(balance, acc_no)
         return 'Done'
-
-
         
     def currency_converter(balance, acc_no, currency):
         if currency == 'NGN':
@@ -119,9 +117,12 @@ class Current_Account():
 # Make the various operations functions
 
 # Do you want to perform another transaction? make it a function called finish....yes or no
-def finish():
-    another = input('Do you want to perform another transaction?\n\t\tY / N').upper()
+def finish(balance, acc_no, currency):
+    another = input('Do you want to perform another transaction?\n\t\tY / N\n').upper()
     if another == 'Y':
+        time.sleep(0.5)
+        print('Loading...')
+        time.sleep(0.5)
         return Current_Account.operation(balance, acc_no, currency)
     else:
         exit('Closing')
