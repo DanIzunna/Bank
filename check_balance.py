@@ -1,30 +1,36 @@
 import time
-import mysql.connector
-mydb = mysql.connector.connect(user="Jon",passwd="ilikecheeseballs2",host="localhost",database ='BANK', auth_plugin= 'mysql_native_password' ) 
-cursor = mydb.cursor()
+from sql_connect import *
 
-def check_balance(balance, acc_no, currency):
+def check_balance(acc_no):
     time.sleep(1.0)
     print('To view balance, 1% would be deducted as service fee')
     time.sleep(0.5)
     print('\tPress 1 to Proceed \n\tPress 0 to exit\n\tPress 9 to go to the previous Menu')
     time.sleep(0.4)
     confirm = int(input('Enter Here: '))
+    
+    sql_select = "select * from customers"
+    cursor.execute(sql_select)
+    records = cursor.fetchall()
+    for i in records:
+        balance = i[8]
+        currency = i[9]
+    
     new_balance = balance - (balance * 0.001)
     if confirm == 1:
-        time.sleep(0.3)
         if currency == 'USD':
             currency = '$'
         else:
             currency = 'N'
-        print('Your account balance is '+ currency+ '{:,.2f}'.format(new_balance))
+        time.sleep(0.5)
+        print('Your account balance is '+ currency+ '{:,.2f}'.format(balance))
         change_balance_sql = "update customers set balance = %s where account_number = %s"%(new_balance, acc_no)
         cursor.execute(change_balance_sql)
         mydb.commit()
-        time.sleep(1.7)
+        time.sleep(1.0)
         print('Charges deducted')
-        time.sleep(1.7)
-        return 'Your new account balance is '+ currency+ '{:,.2f}'.format(new_balance)
+        time.sleep(1.0)
+        print('Your new account balance is '+ currency+ '{:,.2f}'.format(new_balance))
     elif confirm == 0:
         exit('Logging Out')
     elif confirm == 9:

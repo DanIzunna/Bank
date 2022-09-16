@@ -6,4 +6,9 @@ select * from customers;
 -- ACCOUNT_NUMBER INT NOT NULL, ACCOUNT_TYPE VARCHAR(64) NOT NULL,  BALANCE float, CURRENCY VARCHAR(3), DATE_CREATED date NOT NULL);
 
 -- drop table customers;
--- update customers set currency = 'NGN' where currency IS NULL AND ID_NO BETWEEN 1 AND 6;
+-- DELETE FROM customers WHERE (ID_NO between 100 and 200 );
+
+-- select * from customers where account_number = 272261537 and pin = 'cbfad02f9ed2a8d1e08d8f74f5303e9eb93637d47f82ab6f1c15871cf8dd0481';
+-- DELETE FROM customers WHERE account_number = 272261537 and pin =  'cbfad02f9ed2a8d1e08d8f74f5303e9eb93637d47f82ab6f1c15871cf8dd0481'
+
+DELETE FROM customers WHERE account_number = 274408858 and pin = 'cbfad02f9ed2a8d1e08d8f74f5303e9eb93637d47f82ab6f1c15871cf8dd0481'
