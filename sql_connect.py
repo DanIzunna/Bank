@@ -3,4 +3,3 @@ mydb = mysql.connector.connect(user="Jon",passwd="ilikecheeseballs2",host="local
 cursor = mydb.cursor()
 
 # The commands to connect to the database is in one file for ease of access
-

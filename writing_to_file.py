@@ -2,7 +2,7 @@
 
 # my_file = open('customer.txt', 'w+')
 
-while True:
+# while True:
 
     
 

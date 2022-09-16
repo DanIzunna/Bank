@@ -1,29 +1,29 @@
-import random
 import datetime
-from datetime import date
+import random
 import time
 import hashlib
+from date_of_birth import date_of_birth_check
+from gender_check import gender_check
 from current_acc import Current_Account
 from savings_acc import Savings_Account
 from fixed_deposit import Fixed_Deposit_Account
 # Linking to the database
 from sql_connect import *
 
-class Bank:
+class Register:
 
     def __str__(self):
-        return 'A Bank App'
+        return 'To register for the bank app'
 
     def register():
-        print('WELCOME TO BIZ BANK LTD.')
-        time.sleep(0.5)
+
         first_name = input('Please Enter your First Name: ')
         time.sleep(0.5)
         last_name = input('Please Enter your  Last Name: ')
         time.sleep(0.5)
-        date_of_birth = Bank.date_of_birth()
+        date_of_birth = date_of_birth_check()
         time.sleep(0.5)
-        gender = Bank.gender_check()
+        gender = gender_check()
 
         time.sleep(1.0)
         print('Generating Account Number...')
@@ -40,7 +40,7 @@ class Bank:
         # Creating a pin and hashing it to store in the database
         time.sleep(2.0)
         print('Create a PIN')
-        pin = Bank.pin_check()
+        pin = Register.pin_check()
         # Select account type...Savings or Current or Fixed deposit 
         account_type_ = input('Select an account type:\n\t1. Current Account\n\t2. Savings Account\n\t3. Fixed Deposit Account\n')   
         if account_type_ == '1':
@@ -56,61 +56,32 @@ class Bank:
         else:
             return ('Invalid')
         currency = 'NGN'
-        # currency = Current_Account.currency_format()
+
     # Saving new customer to database
         sql = "INSERT INTO CUSTOMERS(FIRST_NAME, LAST_NAME, DATE_OF_BIRTH, GENDER, ACCOUNT_NUMBER, PIN, ACCOUNT_TYPE, DATE_CREATED, CURRENCY, BALANCE) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
         vals = (first_name, last_name, date_of_birth, gender, account_number, pin, account_type, date_created, currency, balance)
         cursor.execute(sql, vals)
         mydb.commit()
         return ('Account Successfully created')
-        
 
-    def gender_check():
-        #To ensure that gender is male or female
-        gender_ = input('Please Select your Gender \n\tMale (M)\n\tFemale (F)\n ').upper()
-        if gender_ not in ['M', 'F', 'MALE', 'FEMALE']:
-            time.sleep(0.5)
-            print('INVALID GENDER\n MUST BE EITHER MALE OR FEMALE')
-            return Bank.gender_check()
-        elif gender_ == 'MALE':
-                gender_ = 'M'
-        elif gender_ == 'FEMALE':
-            gender_ = 'F'
-        return gender_
-
-# Make password confirmation
+#Make password confirmation
     def pin_check():
         raw_pin = (input('Create your FOUR digit secret PIN: '))
         if raw_pin.isnumeric() == True and len(raw_pin) == 4:
             raw_pin = int(raw_pin)
-        # Hashing the pin for enhanced security
+            # Hashing the pin for enhanced security
             pin_hash = str(raw_pin)
             encoded=pin_hash.encode()
             pin = hashlib.sha256(encoded).hexdigest()
-        else:
-            print('Invalid !!\nMust be four digits only!!'.upper())
-            return Bank.pin_check()
+
+        elif raw_pin.isnumeric() != True:
+            print('Invalid !!\npin Must be numbers only!!'.upper())
+            return pin_check()
+
+        elif raw_pin.isnumeric() == True and len(raw_pin) > 4:
+            print('Invalid !!\npin Must be four digits only!!'.upper())
+            return pin_check()
         return pin
 
-    def date_of_birth():
-        # To implement the most appropriate later
-        # y = int(input('Enter your year of birth: '))
-        # m = int(input('Enter your month of birth: '))
-        # d = int(input('Enter your day of birth: '))
 
-        try:
-            dob = input('Enter your date of birth YYYY-MM-DD: ')
-            dob = date.fromisoformat(dob)
-            today_date = date.fromisoformat(str(date.today()))
-            if (today_date.year - dob.year) < 18:
-                time.sleep(1.0)
-                print('Too young ')
-                time.sleep(1.0)
-                quit('Closing... ')
-            return dob
-        except ValueError:
-            print('Invalid date of birth')
-            return Bank.date_of_birth()
-
-
-Bank.register()
+Register.register()
