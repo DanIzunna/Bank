@@ -1,3 +1,6 @@
+from sql_connect import *
+import time
+
 class Fixed_Deposit_Account():
     def __str__(self):
         return 'Fixed Deposit Account'
@@ -18,3 +21,7 @@ class Fixed_Deposit_Account():
         return deposit_amt
 
 # Fixed_Deposit_Account.deposit()
+
+
+# Fixed deposit you select withdrawal date...And the interest rate is 2.1% for 30 days...
+# To deposit in fixed account you need to select the duration
