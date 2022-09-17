@@ -1,7 +1,7 @@
 import datetime
 import random
-import time
 import hashlib
+from name_check import *
 from date_of_birth import date_of_birth_check
 from gender_check import gender_check
 from current_acc import Current_Account
@@ -17,10 +17,10 @@ class Register:
 
     def register():
 
-        first_name = input('Please Enter your First Name: ')
+        print('Fill in your Details to Register')
         time.sleep(0.5)
-        last_name = input('Please Enter your  Last Name: ')
-        time.sleep(0.5)
+        first_name = first_name_check()
+        last_name = last_name_check()
         date_of_birth = date_of_birth_check()
         time.sleep(0.5)
         gender = gender_check()
@@ -40,7 +40,7 @@ class Register:
         # Creating a pin and hashing it to store in the database
         time.sleep(2.0)
         print('Create a PIN')
-        pin = Register.pin_check()
+        pin = pin_check()
         # Select account type...Savings or Current or Fixed deposit 
         account_type_ = input('Select an account type:\n\t1. Current Account\n\t2. Savings Account\n\t3. Fixed Deposit Account\n')   
         if account_type_ == '1':
@@ -56,32 +56,38 @@ class Register:
         else:
             return ('Invalid')
         currency = 'NGN'
+        
 
-    # Saving new customer to database
+# Saving new customer to database
         sql = "INSERT INTO CUSTOMERS(FIRST_NAME, LAST_NAME, DATE_OF_BIRTH, GENDER, ACCOUNT_NUMBER, PIN, ACCOUNT_TYPE, DATE_CREATED, CURRENCY, BALANCE) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
         vals = (first_name, last_name, date_of_birth, gender, account_number, pin, account_type, date_created, currency, balance)
         cursor.execute(sql, vals)
         mydb.commit()
         return ('Account Successfully created')
-
+        
 #Make password confirmation
-    def pin_check():
-        raw_pin = (input('Create your FOUR digit secret PIN: '))
+def pin_check():
+    _pin = (input('Create your FOUR digit secret PIN: '))
+    if _pin.isnumeric() == True and len(_pin) == 4:
+        _pin = int(_pin)
+        
+        raw_pin = input('Confirm your PIN: ')
         if raw_pin.isnumeric() == True and len(raw_pin) == 4:
             raw_pin = int(raw_pin)
-            # Hashing the pin for enhanced security
+        if raw_pin == (_pin):
+        # Hashing the pin for enhanced security
             pin_hash = str(raw_pin)
             encoded=pin_hash.encode()
             pin = hashlib.sha256(encoded).hexdigest()
-
-        elif raw_pin.isnumeric() != True:
-            print('Invalid !!\npin Must be numbers only!!'.upper())
+            return pin
+        elif raw_pin != _pin:
+            print('Passwords don\'t match!')
             return pin_check()
 
-        elif raw_pin.isnumeric() == True and len(raw_pin) > 4:
-            print('Invalid !!\npin Must be four digits only!!'.upper())
-            return pin_check()
-        return pin
+    elif _pin.isnumeric() != True:
+        print('Invalid !!\npin Must be numbers only!!'.upper())
+        return pin_check()
 
-
-Register.register()
+    elif _pin.isnumeric() == True and len(_pin) > 4:
+        print('Invalid !!\npin Must be four digits only!!'.upper())
+        return pin_check()
