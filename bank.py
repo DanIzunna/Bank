@@ -8,21 +8,27 @@ class Bank:
         return 'A Bank App'
 
     def operation():
-        print('WELCOME TO BIZ BANK LTD.')
-        time.sleep(0.5)
-        print('\tPress 1 to Register')
-        time.sleep(0.5)
-        print('\tAlready have an account, \nPress 2 to Login\n Press Enter To exit ')
-        user_choice = input('Enter here: ')
-        if user_choice == '1':
-            return Register.register()
-        elif user_choice == '2':
-            return SignIn.log_in()
-        elif user_choice == '':
-            print('Logging out... ')
-            time.sleep(1.0)
-            exit('Closing...')
-        else:
-            print('Invalid Input!!')
-            return Bank.operation()
-        
+        try:
+            print('WELCOME TO BIZ BANK LTD.')
+            time.sleep(0.5)
+            print('\tPress 1 to Register')
+            time.sleep(0.5)
+            print('\tAlready have an account, Press 2 to Login\n\tPress Enter To exit ')
+            user_choice = input('Enter here: ')
+            if user_choice == '1':
+                return Register.register()
+            elif user_choice == '2':
+                return SignIn.log_in()
+            elif user_choice == '':
+                print('Logging out... ')
+                time.sleep(1.0)
+                exit('Closing...')
+            else:
+                print('Invalid Input!!')
+                return Bank.operation()
+        except KeyboardInterrupt:
+            print('\nSigning Out...')
+            time.sleep(0.5)
+            print('Closed')
+
+Bank.operation()
