@@ -1,9 +1,8 @@
-import math
 import time
 from sql_connect import *
 from check_balance import check_balance
 from deposit import deposit
-from  withdraw import withdraw
+from withdraw import withdraw
 from transfer import transfer
 from change_pin import change_pin
 from delete_account import delete_account
@@ -30,7 +29,7 @@ class Current_Account:
     def operation(acc_no):
         try:
             time.sleep(1.0)
-            print('What do you want to do\n\t1. View Balance\n\t2. Withdraw Funds \n\t3. Deposit Funds \n\t4. Convert Currency \n\t5. Transfer Funds \n\t6. Change Pin \n\t7. Close Account \nPress Enter to exit')
+            print('What do you want to do\n\t1. View Balance\n\t2. Withdraw Funds \n\t3. Deposit Funds \n\t4. Convert Currency \n\t5. Transfer Funds \n\t6. Change Pin \n\t7. Close Account \nPress Enter to Logout')
             choice = (input('What do you want to do? '))
             if choice == '1':
                 check_balance(acc_no)
@@ -52,7 +51,7 @@ class Current_Account:
             elif choice == '7':
                 delete_account(acc_no)
             elif choice == '':
-                exit('Closing...')
+                exit('Logging Out...')
         except ValueError:
             print('Invalid Input...\nEnter an available operation')
             return Current_Account.operation(acc_no)
