@@ -1,5 +1,6 @@
 import time
 from current_acc import Current_Account
+from savings_acc import Savings_Account
 from sql_connect import *
 from pin_check import pin_check
 
@@ -44,10 +45,10 @@ class SignIn:
                         currency = i[9]
                         if i[7] == 'Current Account':
                             return Current_Account.operation(acc_no)
-                        # elif i[7] == 'Savings Account':
-                        #     return Savings_Account.operation()
-                        # else:
-                        #     return Fixed_Deposit_Account.operation()
+                        elif i[7] == 'Savings Account':
+                            return Savings_Account.operation(acc_no)
+                        else:
+                            return Fixed_Deposit_Account.operation(acc_no)
                         
                     else:
                         print('Incorrect Pin!!')
