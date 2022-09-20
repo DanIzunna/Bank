@@ -16,7 +16,7 @@ class Register:
         return 'To register for the bank app'
 
     def register():
-
+        """Method to Register a new user"""
         print('Fill in your Details to Register')
         time.sleep(0.5)
         first_name = first_name_check()
@@ -46,17 +46,16 @@ class Register:
         if account_type_ == '1':
             account_type = 'Current Account'
             balance = Current_Account.initial_deposit()
-            # print(Current_Account.deposit())
         elif account_type_ == '2':
             account_type = 'Savings Account'
-            balance = Savings_Account.deposit()
+            balance = Savings_Account.initial_deposit()
         elif account_type_ == '3':
             account_type = 'Fixed Deposit Account'
-            balance = Fixed_Deposit_Account.deposit()
+            balance = Fixed_Deposit_Account.initial_deposit()
         else:
-            return ('Invalid')
+            print ('Invalid!!!')
+            return Register.register()
         currency = 'NGN'
-        
 
 # Saving new customer to database
         sql = "INSERT INTO CUSTOMERS(FIRST_NAME, LAST_NAME, DATE_OF_BIRTH, GENDER, ACCOUNT_NUMBER, PIN, ACCOUNT_TYPE, DATE_CREATED, CURRENCY, BALANCE) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
