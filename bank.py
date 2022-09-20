@@ -16,7 +16,8 @@ class Bank:
             print('\tAlready have an account, Press 2 to Login\n\tPress Enter To exit ')
             user_choice = input('Enter here: ')
             if user_choice == '1':
-                return Register.register()
+                print( Register.register())
+                return Bank.operation()
             elif user_choice == '2':
                 return SignIn.log_in()
             elif user_choice == '':
