@@ -72,4 +72,4 @@ def finish(acc_no):
 # Fixed deposit you select withdrawal date...And the interest rate is 2.1% for 30 days...
 # To deposit in fixed account you need to select the duration
             # To make interrest rate dynamically generated based on the amount deposited and the duration
-Fixed_Deposit_Account.initial_deposit()
+#Fixed_Deposit_Account.initial_deposit()

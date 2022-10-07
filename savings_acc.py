@@ -18,7 +18,7 @@ class Savings_Account():
                 print('Deposit too low!!')
                 return Savings_Account.initial_deposit()
             else:
-                print('Successfully deposited N%s into the account'%deposit_amt)
+                print('Successfully deposited N{:,.2f}'.format(deposit_amt)+' into the account')
             return deposit_amt
         except ValueError:
             print('Invalid amount\nAmount must be numbers only!!')

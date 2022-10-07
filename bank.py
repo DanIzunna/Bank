@@ -9,7 +9,7 @@ class Bank:
 
     def operation():
         try:
-            print('WELCOME TO BIZ BANK LTD.')
+            print('WELCOME TO THE TRUST BANK ')
             time.sleep(0.5)
             print('\tPress 1 to Register')
             time.sleep(0.5)
