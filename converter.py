@@ -11,6 +11,9 @@ def currency_converter(balance, acc_no, currency):
         if balance - convert_amount < 0:
             time.sleep(1.0)
             print('Insufficient balance')
+            #Add the currency api for seamless conversion and realtime rate where the currency selected 
+        #from the api would return a symbol which would be used to search for the currency and return it 
+        #to the api and get the exchange rate for it
         else:
             new_currency = '$'
             exchange_rate = 0.00185
